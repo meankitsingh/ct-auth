@@ -50,6 +50,7 @@ COPY --from=pruner /app/docs ./docs
 
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
 ENV NEXT_CONFIG_OUTPUT=standalone
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Add build-time environment variables. 
 # For server-only variables, we use valid dummy values (Node.js will read real values at runtime).
