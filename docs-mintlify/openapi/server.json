@@ -1,0 +1,14 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Stack REST API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://authApi.cognitiontree.com/api/v1",
+      "description": "Stack REST API"
+    }
+  ],
+  "paths": {}
+}

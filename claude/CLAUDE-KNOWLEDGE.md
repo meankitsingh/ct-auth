@@ -1,0 +1,211 @@
+# CLAUDE Knowledge Base
+
+Q: How are the development ports derived now that NEXT_PUBLIC_STACK_PORT_PREFIX exists?
+A: Host ports use `${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}` plus the two-digit suffix (e.g., Postgres is `${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}28`, Inbucket SMTP `${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}29`, POP3 `${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}30`, and OTLP `${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}31` by default).
+
+Q: How can I show helper text beneath metadata text areas in the dashboard?
+A: Use the shared `TextAreaField` component's `helperText` prop in `apps/dashboard/src/components/form-fields.tsx`; it now renders the helper content in a secondary Typography line under the textarea.
+
+Q: How is the Email Template Editor structured?
+A: It uses a hero-preview layout in `VibeCodeLayout` where the preview area dominates the screen. The code editor is hidden by default and accessible via a modal, while the AI assistant chat resides in a resizable right panel. Device viewport switching (Desktop/Tablet/Mobile) is integrated into the top toolbar.
+
+Q: How can I improve AI design generations for emails?
+A: Update the system prompts in the backend's chat adapters (e.g., `apps/backend/src/lib/ai-chat/email-template-adapter.ts`). Providing explicit design principles, Tailwind CSS best practices, and structured technical rules helps the AI generate more polished and consistent designs.
+
+Q: What endpoint does the local Freestyle mock expose for script execution?
+A: The mock server responds on `/execute/v1/script` and `/execute/v2/script` when built from `docker/dependencies/freestyle-mock/Dockerfile`; if the running image is older and only supports v1, backend dev can post to `/execute/v1/script` for email rendering.
+
+Q: How can I add a small Vitest check inside a client-only file?
+A: Use `import.meta.vitest?.test(...)` at the bottom of the file for lightweight, in-file tests without adding a separate test file.
+Q: Why did `pnpm typecheck` fail after deleting a Next.js route?
+A: The generated `.next/types/validator.ts` can keep stale imports for removed routes. Deleting that file (or regenerating Next build output) clears the outdated references so `pnpm typecheck` succeeds again.
+
+Q: Why can auto-migrations time out and how should I mitigate it?
+A: Auto-migrations run each migration inside a Prisma interactive transaction with an 80s timeout. Long-running statements (even if marked RUN_OUTSIDE_TRANSACTION_SENTINEL) still consume that time, so keep each iteration small using CONDITIONALLY_REPEAT_MIGRATION_SENTINEL and reduce batch sizes (e.g., lower LIMIT) so each transaction finishes under 80s.
+
+Q: How should `restricted_by_admin` updates handle reason fields?
+A: When setting `restricted_by_admin` to false, explicitly clear `restricted_by_admin_reason` and `restricted_by_admin_private_details` to null (even if omitted in the PATCH) to satisfy the database constraint.
+
+Q: Where should `stackAppInternalsSymbol` be imported from in the dashboard?
+A: Use the shared `apps/dashboard/src/lib/stack-app-internals.ts` export to avoid duplicating the Symbol.for definition across files.
+
+Q: How do we control whether a project requires publishable client keys?
+A: Use the project-level config override field `project.requirePublishableClientKey` via `/api/v1/internal/config/override/project` or `AdminProject.update({ requirePublishableClientKey: ... })`. It defaults to false for new projects and is set true for existing projects via DB migration.
+
+Q: When adding new config fields, what else should be updated?
+A: Update the config schema fuzzer configs in `packages/stack-shared/src/config/schema-fuzzer.test.ts` (for example, add the new field under `projectSchemaFuzzerConfig`/`branchSchemaFuzzerConfig`).
+
+Q: Why can't `canNoLongerBeOverridden` accept dotted paths?
+A: It uses `schema.getNested`, which only allows keys with alphanumerics, `_`, `$`, `:`, or `-`. Dots are rejected, so mark the parent object key (e.g., `project`) as non-overridable instead.
+
+Q: Where is the editable-grid preview spacing controlled in the dashboard playground?
+A: In `apps/dashboard/src/app/(main)/(protected)/(outside-dashboard)/playground/page-client.tsx`, the `selected === "editable-grid"` branch controls the card width/padding and the main preview container now uses `isExpandedPreview` to reduce outer gray padding only for editable-grid.
+
+Q: Why do editable-grid dropdown/boolean values sometimes not fill the full value column width?
+A: In `apps/dashboard/src/components/design-components/editable-grid.tsx`, the value wrappers must be explicitly full-width (`w-full`) for boolean and dropdown fields, and the grid value cell container should also include `w-full`; otherwise controls shrink to content width.
+
+Q: How should dashboard inline editable text fields match the new design-components style?
+A: Use `DesignInput` and `DesignButton` in `apps/dashboard/src/components/editable-input.tsx` (instead of legacy `Input`/`Button`) and style accept/reject actions as subtle glassy icon buttons with muted ring/border plus semantic hover tints.
+
+Q: What should dashboard email/project pages prefer for UI primitives?
+A: Prefer `apps/dashboard/src/components/design-components/*` components (`DesignCard`, `DesignAlert`, `DesignBadge`, `DesignButton`, `DesignPillToggle`, `DesignCategoryTabs`, etc.) over page-local wrappers or repeated inline class patterns; current email surfaces still contain local patterns like custom GlassCard/SectionHeader/ViewportSelector that should be standardized.
+
+Q: What sections are expected in the dashboard design guide beyond component mapping?
+A: Include explicit best-practices plus dedicated guidance for animation, typography, light/dark color system, micro-interactions, and spacing/layout rules so the guide is actionable for both humans and AI agents.
+
+Q: How should the project emails page cards align with the design system?
+A: In `apps/dashboard/src/app/(main)/(protected)/projects/[projectId]/emails/page-client.tsx`, wrap the major sections with `DesignCard` from `@/components/design-components` (for example `gradient="default"`/`"purple"` with `glassmorphic`) instead of maintaining a local page-specific glass card wrapper.
+
+Q: Where is the default inner spacing for shared design cards controlled?
+A: `apps/dashboard/src/components/design-components/card.tsx` sets the default content padding via `bodyPaddingClass` (currently `p-5`), and compact cards use `p-5` header plus `px-5 py-4` body spacing.
+
+Q: Why can two `DesignCard` surfaces look like they have different padding?
+A: Pages can add extra local wrappers inside `DesignCard` (for example `p-5`, `px-5`, `pb-5`) which stack on top of `DesignCard` defaults; in the emails page, removing those local wrappers (`p-0`, `px-0`, `pb-0`) makes spacing match playground behavior.
+
+Q: How can a split section inside body-only `DesignCard` match header/content card borders?
+A: Inside body-only cards (which already apply `p-5`), use a second section with `-mx-5 px-5` and `border-t border-black/[0.12] dark:border-white/[0.06]` so the divider spans full card width while content alignment matches `DesignCard` header/content layout.
+
+Q: How should cards handle header action buttons when using `title` + `subtitle`?
+A: `DesignCard` now supports an `actions` prop when title/icon are provided; use `title`, `subtitle`, `icon`, and `actions` in pages like emails so header spacing and subtitle-bottom spacing exactly match playground/header variant styles without custom section-header workarounds.
+
+Q: What should we do after changing props in a core dashboard design component?
+A: Update the playground implementation (`apps/dashboard/src/app/(main)/(protected)/(outside-dashboard)/playground/page-client.tsx`) in the same change so the component controls/examples reflect the new or changed props immediately.
+
+Q: How is the new `DesignCard` `actions` prop represented in playground?
+A: The card playground now includes a `Header Actions` toggle that injects a sample `actions` slot (`DesignButton` with `Sliders` icon and "Configure") into `DesignCard` preview and generated code, only when `title` is present.
+
+Q: What is the reliable way to lint a single dashboard file in this monorepo?
+A: Run lint from `apps/dashboard` directly (for example `pnpm lint -- "src/app/(main)/(protected)/projects/[projectId]/(overview)/line-chart.tsx"`), because running root `pnpm lint -- <file>` fans out through Turbo packages where that path does not exist.
+Q: How should unsubscribe-link e2e tests avoid breakage from email theme/layout changes?
+A: In `apps/e2e/tests/backend/endpoints/api/v1/unsubscribe-link.test.ts`, avoid snapshotting the entire rendered HTML for transactional emails; assert stable behavior instead (email content present and `/api/v1/emails/unsubscribe-link` absent) so cosmetic wrapper/style changes do not fail the test.
+
+Q: How do cross-domain auth handoffs avoid creating extra refresh-token sessions?
+A: The cross-domain authorize route must carry the current `refreshTokenId` through authorization-code exchange and OAuth token issuance must reuse that ID. Keep `afterCallbackRedirectUrl` URL-only and persist refresh-token linkage in `ProjectUserAuthorizationCode.grantedRefreshTokenId`; then return that as `user.refreshTokenId` in `getAuthorizationCode` so token issuance can reuse the same refresh-token row with ownership checks.
+
+Q: Is there a manual demo page for cross-domain auth handoff verification?
+A: Yes — `examples/demo/src/app/cross-domain-handoff/page.tsx` provides one-click triggers for client sign-in/sign-up redirects, server protected-page redirects, and OAuth provider sign-in, plus runtime URL visibility for manual verification.
+
+Q: Why did the demo still use `*.built-with-stack-auth.com` in local dev?
+A: The demo app needs `NEXT_PUBLIC_STACK_HOSTED_HANDLER_DOMAIN_SUFFIX` in `examples/demo/.env.development`; set it to `.localhost:${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}09` so hosted handler URLs resolve to the local hosted-components instance.
+
+Q: How should SDK code read environment variables to work across bundlers?
+A: Read from `packages/template/src/lib/env.ts` via `envVars` only. That file uses explicit `typeof process !== "undefined" ? process.env.KEY : undefined` getters so bundlers like Next.js can inline `process.env.KEY` at build time while still being safe if `process` is unavailable at runtime. Direct `process.env` usage is banned in `packages/template/.eslintrc.cjs` everywhere except `src/lib/env.ts`.
+
+Q: What if hosted auth rewrites `after_auth_return_to` into a same-origin relative callback URL?
+A: Cross-domain handoff should still run when handoff params indicate a different final callback origin. In that case, reconstruct the cross-domain redirect URI on the `afterCallbackRedirectUrl` origin while preserving callback path/query/hash, then continue through `/auth/oauth/cross-domain/authorize`.
+
+Q: How should `app.urls.signIn`/`signOut` behave for hosted cross-domain flows?
+A: In browser contexts, `app.urls` should return redirect-ready handler URLs for `signIn`, `signUp`, `onboarding`, and `signOut`: include `after_auth_return_to`, preserve existing cross-domain handoff params, and for hosted sign-in/up/onboarding populate cross-domain callback targets (`/handler/oauth-callback` with `stack_cross_domain_auth=1`) so plain `router.push(app.urls.signIn)` / `<Link href={app.urls.signOut}>` keeps return-to-domain behavior.
+
+Q: What should happen if hosted `after_auth_return_to` requires cross-domain handoff but URL params are missing?
+A: In `planRedirectToHandler` (`redirect-page-urls.ts`), do not throw immediately. Generate missing PKCE handoff `state`/`codeChallenge` via `getCrossDomainHandoffParams(currentUrl)` and default `afterCallbackRedirectUrl` to `currentUrl.toString()`, then continue with cross-domain authorize planning.
+
+Q: What is the cleanest split for `_redirectToHandler`?
+A: Put branching/policy into a pure planner (`planRedirectToHandler`) in `redirect-page-urls.ts` that returns either a direct redirect URL or a cross-domain authorize payload; keep `client-app-impl` as the executor for side effects (calling authorize endpoint and navigating).
+
+Q: Should query parsing like `_getCrossDomainHandoffParamsForUrlsGetter` live in client-app-impl?
+A: Prefer moving pure query parsing into `redirect-page-urls.ts` (for example `getCrossDomainHandoffParamsFromCurrentUrl`) and keep `client-app-impl` focused on fallback/prefetch/stateful concerns only.
+
+Q: How should we carry cross-domain refresh-token reuse data without corrupting URL semantics?
+A: Keep `afterCallbackRedirectUrl` as a URL-only field and persist refresh-token linkage in a dedicated DB column (`ProjectUserAuthorizationCode.grantedRefreshTokenId`). Then return that column as `user.refreshTokenId` in `getAuthorizationCode` so token issuance can safely reuse and ownership-check it.
+
+Q: How can cross-domain handoff require proof of refresh-token possession without adding extra body fields?
+A: Reuse the existing `X-Stack-Refresh-Token` header already sent by the client interface. In `/auth/oauth/cross-domain/authorize`, require this header, resolve the refresh-token row by token string, and verify it matches auth context (`auth.refreshTokenId`, `auth.user.id`, `auth.tenancy.id`) and validity before issuing the handoff code.
+
+Q: Why can cross-domain e2e tests fail after adding a new file under template implementations?
+A: E2E JS tests import `@stackframe/js` from built `dist`, so new helper files copied to `packages/js/src` still fail at runtime until package dist is rebuilt and includes the new module path.
+
+Q: How should dashboard pages update project config values?
+A: Do not call `project.updateConfig(...)` directly from dashboard pages; lint enforces using `useUpdateConfig()` from `apps/dashboard/src/lib/config-update.tsx` so pushable-config confirmation flows are handled consistently.
+
+Q: How should EventTracker behave in test environments with partial DOM mocks?
+A: In `packages/template/src/lib/stack-app/apps/implementations/event-tracker.ts`, gate `start()` behind runtime capability checks (DOM listener APIs and screen dimensions), and patch `window.history` instead of global `history`. This prevents crashes like `Cannot read properties of undefined (reading 'width')` in non-browser test stubs while keeping browser behavior unchanged.
+
+Q: How can the dashboard find resumable onboarding state without SDK type changes?
+A: Query `/internal/projects` via `stackAppInternalsSymbol` and read each project's `onboarding_status`; this avoids relying on `AdminOwnedProject` fields that may lag until generated package copies are rebuilt.
+
+Q: How should the new-project onboarding page avoid React's "Cannot update a component while rendering a different component" router error?
+A: In `apps/dashboard/src/app/(main)/(protected)/(outside-dashboard)/new-project/page-client.tsx`, never call `router.replace(...)` during render when an onboarding project is already completed; move that redirect into a `useEffect` and render a plain spinner while the redirect is in progress.
+
+Q: What is the expected lightweight loading state when reopening an in-progress onboarding project?
+A: On `apps/dashboard/src/app/(main)/(protected)/(outside-dashboard)/new-project/page-client.tsx`, the "loading onboarding" state should be just a centered `Spinner` with no card chrome or explanatory copy.
+
+Q: How should dashboard project onboarding status responses be handled to avoid silently bypassing onboarding?
+A: Import `ProjectOnboardingStatus`/`projectOnboardingStatusValues` from `@stackframe/stack-shared/dist/schema-fields`, validate every `onboarding_status` from `/internal/projects`, and throw on invalid/missing values instead of defaulting to `"completed"`.
+
+Q: What E2E updates are required after adding `onboarding_status` to project API responses?
+A: Update affected inline snapshots in `apps/e2e/tests/backend/endpoints/api/v1/**` to include `"onboarding_status": "completed"` in project payloads (for example projects, permissions, and integration provisioning/current endpoints), otherwise CI setup/restart E2E jobs fail with snapshot mismatches.
+
+Q: How should `createOrUpdateProjectWithLegacyConfig` handle `onboardingStatus` for forward-compat checks?
+A: Only write `onboardingStatus` when the `Project.onboardingStatus` column exists (for example by checking `information_schema.columns` in-transaction) so current code can still run against older schemas where that column is absent.
+
+Q: What caused the March 19, 2026 QEMU local emulator deps startup regression?
+A: The QEMU runtime path regressed when it switched from mounting `docker/local-emulator/base.env` into the runtime ISO to mounting the generated hidden file `docker/local-emulator/.env.development` instead. In testing, the `.env.development` QEMU path left cold boot stuck with only PostgreSQL healthy, while restoring the runtime ISO back to `base.env` brought deps startup back to about 12-13 seconds. The env payloads were effectively the same, so the likely issue was the QEMU runtime bundle/path handling for `.env.development`, not the actual env values.
+Q: Where is the private sign-up risk engine generated entrypoint in backend now?
+A: The generator script writes `apps/backend/src/private/implementation.generated.ts` (not `src/generated/private-sign-up-risk-engine.ts`), and backend runtime imports should target `@/private/implementation.generated`.
+
+Q: Why did EventTracker throw `Reflect.get called on non-object` in JS cookie tests?
+A: Partial browser mocks can expose `window` without a real `history` object. Calling `Reflect.get(historyObject, "pushState")` throws before type checks. Use normal guarded access (`Object.getOwnPropertyDescriptor(window, "history")?.value`) plus type guards for `pushState`/`replaceState`, and patch/restore methods directly without `Reflect`.
+
+Q: How are custom handler URL target versions validated?
+A: In `packages/template/src/lib/stack-app/url-targets.ts`, custom targets are only allowed for handler names listed in `customPagePrompts` (not for `handler`). For allowed pages, `version: 0` is always accepted and non-zero versions must exist in `customPagePrompts[handlerName].versions`; otherwise an error is thrown.
+
+Q: How should `StackHandlerClient.redirectIfNotHandler` avoid SSR `window` crashes?
+A: In `packages/template/src/components-page/stack-handler-client.tsx`, parse handler URLs with a placeholder origin (`http://example.com`) and avoid reading `window` on the server path. For SSR, compare only handler path shape; for browser, keep origin+path checks using `window.location.origin`.
+
+Q: What is the current `app.urls` contract after deprecating runtime URL mutation?
+A: `app.urls` is now static (`getUrls(...)` only) and no longer injects runtime `after_auth_return_to` / `stack_cross_domain_*` params from `window.location`. For navigation flows, examples and consumers should use `redirectToXyz()` methods instead (for example `redirectToSignIn()` / `redirectToSignOut()`), while tests for hosted flows should assert dynamic params on actual redirect methods, not on `app.urls`.
+
+Q: How should user signup time be exposed in JWT claims before production rollout?
+A: Use `signed_up_at` (OIDC-style naming) in access tokens and encode it as Unix seconds in `apps/backend/src/lib/tokens.tsx` (`Math.floor(user.signed_up_at_millis / 1000)`). Since this is pre-prod, the payload schema can require `signed_up_at` directly without a backward-compat optional shim.
+
+Q: Where should new globally searchable Cmd+K destinations be added in the dashboard?
+A: Add project-level shortcuts to `PROJECT_SHORTCUTS` in `apps/dashboard/src/components/cmdk-commands.tsx` (optionally gated with `requiredApps`), and for app subpages rely on the flattened `appFrontend.navigationItems` command generation in the same file so pages are directly searchable without nested preview navigation.
+
+Q: Which port suffixes are assigned to the two local docs sites?
+A: `docs` (old docs app) uses suffix `26`, and `docs-mintlify` uses suffix `04`. Keep these in sync across `docs/package.json`, `docs-mintlify/package.json`, `apps/dev-launchpad/public/index.html`, and `apps/dashboard/.env.development` (`NEXT_PUBLIC_STACK_DOCS_BASE_URL` points to old docs on `26`).
+
+Q: Why did the dashboard Vercel integration throw "Expected publishableClientKey" during key generation?
+A: In `apps/dashboard/src/app/(main)/(protected)/projects/[projectId]/vercel/page-client.tsx`, the code always asserted `newKey.publishableClientKey` even when `project.requirePublishableClientKey` was false. Fix by only asserting/passing `publishableClientKey` when that project config flag is true.
+
+Q: Why can restricted users appear logged out on auth handler pages even with a valid session?
+A: `useUser()` filters out restricted users by default. In `packages/template/src/components-page/auth-page.tsx`, use `useUser({ includeRestricted: true })` and explicitly redirect restricted users to onboarding when `automaticRedirect` is enabled.
+
+Q: Why can external-db-sync sequencer throw `operator does not exist: text = uuid` on team updates?
+A: In `apps/backend/src/app/api/latest/internal/external-db-sync/sequencer/route.ts`, the TEAM_INVITATION cascade compares JSON text (`"VerificationCode"."data"->>'team_id'`) against `"Team"."teamId"` (`uuid`). Cast the UUID side to text (`changed_teams."teamId"::text`) in the WHERE clause so Postgres type resolution succeeds and team-invitation re-sync marking works.
+
+Q: How does the backend correlate concurrent requests in serverless environments for logging?
+A: It uses a global `processId` (generated at startup) and a per-request `requestId` (generated in `handleApiRequest`). Both are traced via `traceSpan` and logged in every API request/response cycle to facilitate debugging across concurrent executions.
+
+Q: When updating config overrides via API, what is the mandatory processing order?
+A: Always call `migrateConfigOverride(level, parsedConfig)` BEFORE validating it against the level schema. This ensures that legacy config formats are normalized to the current schema before `getConfigOverrideErrors` or `yup` validation is executed.
+
+Q: What is the difference between `permissionRegex` and `customPermissionRegex` in RBAC?
+A: Both enforce `^[a-z_][a-z0-9_]*$`, but `customPermissionRegex` (used for user-defined permissions) explicitly prohibits a leading `$` to reserve that prefix for internal/system permissions.
+
+Q: How do dashboard components automatically detect if they should use glassmorphism?
+A: They use `useGlassmorphicDefault(prop)`, which checks the `DesignCardNestingContext` via `useInsideDesignCard()`. If a component (like a button or input) is nested inside a `DesignCard`, it defaults to glassmorphism unless explicitly overridden.
+
+Q: How does the SDK generator handle platform-specific code (e.g. Next.js vs Browser)?
+A: It uses a macro system in `scripts/generate-sdks.ts` that processes `packages/template`. Specifically, it looks for `// @stack-macro` or similar markers and applies conditional logic to include/exclude code based on the target package (`stack`, `react`, or `js`).
+
+Q: Why should `createSmartRouteHandler` be preferred over plain Next.js route handlers?
+A: It provides built-in `yup` validation for both request and response, automatic Sentry context injection, request timeout monitoring, tracing, and standardized error mapping to `KnownErrors`.
+
+Q: Why did the dashboard build fail with `TypeError: Invalid URL (input: '')` during configuration collection?
+A: This happens if `metadataBase` in `apps/dashboard/src/app/layout.tsx` is initialized with an empty string, which occurs if the `NEXT_PUBLIC_STACK_API_URL` environment variable is unset during build. Use a defensive check to set `metadataBase` only when a valid URL is present.
+
+Q: What does the warning `[baseline-browser-mapping] The data in this module is over two months old` mean during Next.js build?
+A: It indicates that the `baseline-browser-mapping` package (used for browser compatibility data) is outdated. It should be updated via `pnpm add -D baseline-browser-mapping@latest` in the relevant app (e.g., dashboard). Note that updating may fail if other workspace apps have incompatible Node.js engine requirements.
+
+Q: How can we ensure that `pnpm db:reset` fully resets all local and remote data?
+A: In `apps/backend/scripts/db-migrations.ts`'s `dropSchema` function, we must drop and recreate the PostgreSQL schema, drop the Clickhouse `analytics_internal` database, drop all views and row policies in the Clickhouse `default` database (which are created with `IF NOT EXISTS` or `OR REPLACE` and otherwise persist across resets), drop the `limited_user` user (to allow updates to external credentials), and call `clearS3Buckets()` from `apps/backend/src/s3.tsx` to empty the S3 mock storage buckets.
+
+Q: Why does the backend dev server log recurrent `TypeError: fetch failed` at `@upstash/qstash` or assertion errors in `poller/route.ts`?
+A: In local development/test environments, the QStash service runs inside a Docker container (port 8125). If Docker is not running, calling QStash fails, leaving requests in a stale state. To prevent this from spamming the console with verbose stack traces, `poller/route.ts` identifies local connection failures and logs a throttled warning instead of calling `captureError("poller-iteration-error")`. Additionally, when resetting stale requests, the poller logs a friendly `console.warn` instead of triggering a loud `StackAssertionError` for `poller-stale-outgoing-requests` in development/test.
+
+Q: What environment and protected files are ignored in the repository?
+A: All environment files (`.env`, `.env.development`, `.env.production`, `.env.test`, `.env.local`, `.env.*.local`, `.env.*`) are ignored in `.gitignore`, except for `.env.example` templates which remain trackable. Additionally, private keys and certificates (`*.key`, `*.pem`, `*.cert`, `*.pfx`) are ignored. Staged/modified environment files already tracked in git must be untracked using `git rm --cached <files>` to stop git from monitoring them.
+
+Q: How can we build backend/server Dockerfiles successfully under arbitrary build contexts (like in Dokploy or Coolify)?
+A: In `docker/backend/Dockerfile` and `docker/server/Dockerfile`, we modified all later-stage file-copying operations (e.g. for `.gitignore`, `turbo.json`, `pnpm-workspace.yaml`, `configs/`, `docs/`, and `entrypoint.sh`) to copy from `--from=pruner` instead of the host build context. This makes the later stages fully self-contained and avoids errors like `/.gitignore: not found`. Additionally, we added a root `Dockerfile` (configured to build the backend) so that platforms like Dokploy can build it out-of-the-box using their default root context and root path settings without requiring custom build context arguments or configuration overrides.

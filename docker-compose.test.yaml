@@ -1,0 +1,87 @@
+services:
+  # Main Stack Auth Application (Backend + Dashboard)
+  app:
+    build:
+      context: .
+      dockerfile: docker/server/Dockerfile
+    ports:
+      - "9101:8101" # Dashboard
+      - "9102:8102" # Backend
+    environment:
+      - NODE_ENV=test
+      - STACK_DATABASE_CONNECTION_STRING=postgres://postgres:PASSWORD-PLACEHOLDER--uqfEC1hmmv@db:5432/stackframe
+      - NEXT_PUBLIC_STACK_API_URL=http://localhost:9102
+      - NEXT_PUBLIC_STACK_DASHBOARD_URL=http://localhost:9101
+      - STACK_SERVER_SECRET=a-very-secret-key-at-least-32-chars-long-123
+      - USE_INLINE_ENV_VARS=true
+      - NEXT_PUBLIC_STACK_PORT_PREFIX=91
+      - STACK_VERCEL_SANDBOX_TOKEN=vercel_sandbox_disabled_for_local_development
+      - STACK_FREESTYLE_API_KEY=mock_stack_freestyle_key
+      - NEXT_PUBLIC_STACK_IS_PREVIEW=true
+      - STACK_RUN_MIGRATIONS=true
+      - STACK_RUN_SEED_SCRIPT=true
+      - STACK_SEED_INTERNAL_PROJECT_USER_EMAIL=admin@example.com
+      - STACK_SEED_INTERNAL_PROJECT_USER_PASSWORD=AdminPassword123!
+      - STACK_SEED_INTERNAL_PROJECT_USER_INTERNAL_ACCESS=true
+      - STACK_SEED_INTERNAL_PROJECT_SIGN_UP_ENABLED=true
+      - STACK_SEED_INTERNAL_PROJECT_ALLOW_LOCALHOST=true
+      - STACK_EMAIL_HOST=inbucket
+      - STACK_EMAIL_PORT=2500
+      - STACK_CLICKHOUSE_URL=http://clickhouse:8123
+      - STACK_CLICKHOUSE_ADMIN_PASSWORD=PASSWORD-PLACEHOLDER--9gKyMxJeMx
+      - STACK_CLICKHOUSE_EXTERNAL_PASSWORD=PASSWORD-PLACEHOLDER--9gKyMxJeMx
+    depends_on:
+      db:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+      inbucket:
+        condition: service_healthy
+
+  # Database
+  db:
+    build: docker/dev-postgres-with-extensions
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: PASSWORD-PLACEHOLDER--uqfEC1hmmv
+      POSTGRES_DB: stackframe
+    ports:
+      - "8128:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d stackframe"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ClickHouse (for analytics)
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.10
+    ports:
+      - "8136:8123"
+    environment:
+      CLICKHOUSE_DB: analytics
+      CLICKHOUSE_USER: stackframe
+      CLICKHOUSE_PASSWORD: PASSWORD-PLACEHOLDER--9gKyMxJeMx
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    volumes:
+      - clickhouse-data:/var/lib/house
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8123/ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Inbucket (for email testing)
+  inbucket:
+    image: inbucket/inbucket:3.1.0
+    ports:
+      - "8105:9000" # Web UI
+      - "8129:2500" # SMTP
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9000/"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  clickhouse-data:
