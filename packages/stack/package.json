@@ -1,6 +1,6 @@
 {
   "//": "THIS FILE IS AUTO-GENERATED FROM TEMPLATE. DO NOT EDIT IT DIRECTLY, INSTEAD EDIT THE CORRESPONDING FILE IN packages/template (FOR package.json FILES, PLEASE EDIT package-template.json)",
-  "name": "@stackframe/stack",
+  "name": "@ct/auth-stack",
   "version": "2.8.81",
   "repository": "https://github.com/meankitsingh/ct-auth.git",
   "sideEffects": false,
@@ -57,6 +57,10 @@
     "CHANGELOG.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.cognitiontree.com"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@stripe/react-stripe-js": "^3.8.1",

@@ -215,3 +215,14 @@ A: This error indicates that the PostgreSQL database container (or Docker itself
 
 Q: Why can requests to GET `/api/v1` fail with `query contains unknown properties: _rsc` and how should we fix it?
 A: When a Next.js client performs prefetching or client-side routing, it appends the `_rsc` query parameter to route calls. Since our smart route handler for `/api/v1` (`apps/backend/src/app/api/latest/route.ts`) checks for unknown query parameters strictly, we must explicitly allow `_rsc: yupString().optional()` in the `query` schema validation to prevent these standard client-side router requests from failing request validation.
+
+Q: How can we authenticate with a self-hosted Svix server in scripts and what JWT claims are required?
+A: Authenticating with a self-hosted Svix (`svix-server`) using an API key requires signing a JWT using `HS256` with the `SVIX_JWT_SECRET` as the secret key. The JWT must include both the `"iss": "svix-server"` and a `"sub": "<subject-identifier>"` (e.g. an organization ID or app ID) claims. Missing the `sub` claim leads to an `authentication_failed: Invalid token (missing sub)` 401 error. To list applications or interact with the self-hosted Svix server, instantiate `Svix` with this JWT token and set the `serverUrl` option to the self-hosted URL.
+
+Q: How do we publish the react package in the workspace under a custom name to a custom registry?
+A: Update the package name for the `react` platform in `packages/template/package-template.json` (e.g., `"name": "@ct/auth-react"`) and add a conditional `publishConfig` targeting the custom registry. Then, add a script in the root `package.json` (e.g., `"publish:react": "pnpm pre && pnpm --filter=./packages/react build && pnpm --filter=./packages/react publish --no-git-checks"`) to safely compile the SDKs, build the react package, and publish it to the custom registry.
+
+Q: How do we publish the stack package in the workspace?
+A: Update the package name for the `next` platform in `packages/template/package-template.json` to `"@ct/auth-stack"` and expand the conditional `publishConfig` check to include the `next` platform (e.g., `"//": "IF_PLATFORM react next"`). Then, add a script in the root `package.json` (e.g., `"publish:stack": "pnpm pre && pnpm --filter=./packages/stack build && pnpm --filter=./packages/stack publish --no-git-checks"`) to safely compile the SDKs, build the stack package, and publish it to the custom registry.
+
+

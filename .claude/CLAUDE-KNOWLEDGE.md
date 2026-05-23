@@ -355,3 +355,20 @@ Then restart the dev server. This rebuilds all packages and generates the necess
 
 ## Q: How is backwards compatibility for the offer→product rename handled in the payments purchase APIs?
 A: API v1 requests are routed through the `v2beta1` migration. The migration wraps the latest handlers, accepts legacy `offer_id`/`offer_inline` request fields, translates product-related errors back to the old offer error codes/messages, and augments responses (like `validate-code`) with `offer`/`conflicting_group_offers` aliases alongside the new `product` fields. Newer API versions keep the product-only contract.
+
+## Development Environment Management
+
+### Q: How do I run only the dashboard in development mode?
+A: You can run the dashboard alone using the pnpm command:
+```powershell
+pnpm --filter=@stackframe/dashboard dev
+```
+This launches the Next.js development server for the dashboard app on port 8101 without starting the backend or doc server, allowing for faster dashboard-specific development.
+
+### Q: How do we publish the react package in the workspace under a custom name to a custom registry?
+A: Update the package name for the `react` platform in `packages/template/package-template.json` (e.g., `"name": "@ct/auth-react"`) and add a conditional `publishConfig` targeting the custom registry. Then, add a script in the root `package.json` (e.g., `"publish:react": "pnpm pre && pnpm --filter=./packages/react build && pnpm --filter=./packages/react publish --no-git-checks"`) to safely compile the SDKs, build the react package, and publish it to the custom registry.
+
+### Q: How do we publish the stack package in the workspace?
+A: Update the package name for the `next` platform in `packages/template/package-template.json` to `"@ct/auth-stack"` and expand the conditional `publishConfig` check to include the `next` platform (e.g., `"//": "IF_PLATFORM react next"`). Then, add a script in the root `package.json` (e.g., `"publish:stack": "pnpm pre && pnpm --filter=./packages/stack build && pnpm --filter=./packages/stack publish --no-git-checks"`) to safely compile the SDKs, build the stack package, and publish it to the custom registry.
+
+

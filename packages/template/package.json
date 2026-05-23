@@ -62,6 +62,10 @@
     "CHANGELOG.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.cognitiontree.com"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@stripe/react-stripe-js": "^3.8.1",

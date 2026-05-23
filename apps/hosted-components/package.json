@@ -12,7 +12,7 @@
     "clean": "rimraf .output && rimraf node_modules"
   },
   "dependencies": {
-    "@stackframe/react": "workspace:*",
+    "@stackframe/react": "workspace:@ct/auth-react@*",
     "@stackframe/stack-shared": "workspace:*",
     "@tanstack/react-router": "^1.121.3",
     "@tanstack/react-start": "^1.121.3",

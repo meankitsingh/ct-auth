@@ -4,9 +4,9 @@
   "//": "ELSE_IF_PLATFORM js",
   "name": "@stackframe/js",
   "//": "ELSE_IF_PLATFORM next",
-  "name": "@stackframe/stack",
+  "name": "@ct/auth-stack",
   "//": "ELSE_IF_PLATFORM react",
-  "name": "@stackframe/react",
+  "name": "@ct/auth-react",
   "//": "END_PLATFORM",
   
   "//": "NEXT_LINE_PLATFORM template",
@@ -85,6 +85,12 @@
     "CHANGELOG.md",
     "LICENSE"
   ],
+  "//": "IF_PLATFORM react next",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.cognitiontree.com"
+  },
+  "//": "END_PLATFORM",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "//": "NEXT_LINE_PLATFORM react-like",

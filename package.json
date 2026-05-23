@@ -62,6 +62,8 @@
     "start:mock-oauth-server": "pnpm pre && turbo run start --concurrency 99999 --filter=@stackframe/mock-oauth-server",
     "lint": "pnpm pre && turbo run lint --continue -- --max-warnings=0",
     "release": "pnpm pre && release",
+    "publish:react": "pnpm pre && pnpm --filter=./packages/react build && pnpm --filter=./packages/react publish --no-git-checks",
+    "publish:stack": "pnpm pre && pnpm --filter=./packages/stack build && pnpm --filter=./packages/stack publish --no-git-checks",
     "dotenv": "dotenv",
     "peek": "pnpm pre && pnpm release --peek",
     "changeset": "pnpm pre && changeset",

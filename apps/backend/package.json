@@ -80,7 +80,7 @@
     "@prisma/instrumentation": "^7.0.0",
     "@react-email/render": "^1.2.1",
     "@simplewebauthn/server": "^13.3.0",
-    "@stackframe/stack": "workspace:*",
+    "@stackframe/stack": "workspace:@ct/auth-stack@*",
     "@stackframe/stack-shared": "workspace:*",
     "@upstash/qstash": "^2.8.2",
     "@vercel/functions": "^2.0.0",
