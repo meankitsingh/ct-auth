@@ -15,8 +15,8 @@ export const GET = createSmartRouteHandler({
       project: adaptSchema,
     }).nullable(),
     query: yupObject({
-      // No query parameters
-      // empty object means that it will fail if query parameters are given regardless
+      // Allow optional Next.js Router prefetch / RSC query parameter
+      _rsc: yupString().optional(),
     }),
     headers: yupObject({
       // we list all automatically parsed headers here so the documentation shows them
