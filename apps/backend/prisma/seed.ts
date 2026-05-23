@@ -259,6 +259,60 @@ export async function seed() {
     console.log('Internal team created');
   }
 
+  // Seed default Growth subscription for internal team to grant unlimited admin seats
+  const growthProduct = {
+    productLineId: "plans",
+    displayName: "Growth",
+    customerType: "team",
+    serverOnly: false,
+    stackable: false,
+    prices: {
+      monthly: {
+        USD: "299",
+        interval: [1, "month"] as any,
+        serverOnly: false,
+      },
+    },
+    includedItems: {
+      [ITEM_IDS.seats]: { quantity: PLAN_LIMITS.growth.seats, repeat: "never" as const, expires: "when-purchase-expires" as const },
+      [ITEM_IDS.authUsers]: { quantity: PLAN_LIMITS.growth.authUsers, repeat: "never" as const, expires: "when-purchase-expires" as const },
+      [ITEM_IDS.emailsPerMonth]: { quantity: PLAN_LIMITS.growth.emailsPerMonth, repeat: "never" as const, expires: "when-purchase-expires" as const },
+      [ITEM_IDS.analyticsTimeoutSeconds]: { quantity: PLAN_LIMITS.growth.analyticsTimeoutSeconds, repeat: "never" as const, expires: "when-purchase-expires" as const },
+      [ITEM_IDS.analyticsEvents]: { quantity: PLAN_LIMITS.growth.analyticsEvents, repeat: "never" as const, expires: "when-purchase-expires" as const },
+    },
+  };
+
+  const internalSubscriptionId = "1a8f6c3d-6b2f-4a7b-8c11-9a7c9b8d7e6f";
+  await internalPrisma.subscription.upsert({
+    where: {
+      tenancyId_id: {
+        tenancyId: internalTenancy.id,
+        id: internalSubscriptionId,
+      },
+    },
+    update: {
+      productId: "growth",
+      product: growthProduct as any,
+      status: "active",
+    },
+    create: {
+      id: internalSubscriptionId,
+      tenancyId: internalTenancy.id,
+      customerId: internalTeamId,
+      customerType: "TEAM",
+      productId: "growth",
+      priceId: "monthly",
+      product: growthProduct as any,
+      quantity: 1,
+      status: "active",
+      currentPeriodStart: new Date(),
+      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      cancelAtPeriodEnd: false,
+      creationSource: "API_GRANT",
+    },
+  });
+  console.log('Growth subscription for internal team seeded');
+
   const shouldSeedDummyProject = process.env.STACK_SEED_ENABLE_DUMMY_PROJECT === 'true';
   if (shouldSeedDummyProject) {
     await seedDummyProject({
