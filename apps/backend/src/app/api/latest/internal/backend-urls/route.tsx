@@ -1,7 +1,7 @@
 import { createSmartRouteHandler } from "@/route-handlers/smart-route-handler";
 import { urlSchema, yupArray, yupNumber, yupObject, yupString } from "@stackframe/stack-shared/dist/schema-fields";
-import { StackAssertionError } from "@stackframe/stack-shared/dist/utils/errors";
 import { getEnvVariable } from "@stackframe/stack-shared/dist/utils/env";
+import { StackAssertionError } from "@stackframe/stack-shared/dist/utils/errors";
 import { getDefaultApiUrls } from "@stackframe/stack-shared/dist/utils/urls";
 
 /**
@@ -10,8 +10,8 @@ import { getDefaultApiUrls } from "@stackframe/stack-shared/dist/utils/urls";
  *
  * Example:
  * {
- *   "0.7": ["https://authApi.cognitiontree.com", "https://api2.stack-auth.com"],
- *   "0.3": ["https://api2.stack-auth.com", "https://authApi.cognitiontree.com"]
+ *   "0.7": ["https://authApi.cognitiontree.com", "https://api2.cognitiontree.com"],
+ *   "0.3": ["https://api2.cognitiontree.com", "https://authApi.cognitiontree.com"]
  * }
  */
 

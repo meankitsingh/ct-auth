@@ -36,7 +36,7 @@
       }
     }
   },
-  "homepage": "https://stack-auth.com",
+  "homepage": "https://cognitiontree.com",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist && rimraf node_modules",

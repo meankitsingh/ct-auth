@@ -1,17 +1,17 @@
-import { Command } from "commander";
-import { select, input, checkbox, confirm } from "@inquirer/prompts";
-import * as fs from "fs";
-import * as path from "path";
+import { checkbox, confirm, input, select } from "@inquirer/prompts";
 import { StackClientApp } from "@stackframe/js";
 import { ALL_APPS } from "@stackframe/stack-shared/dist/apps/apps-config";
-import { resolveLoginConfig, resolveSessionAuth, DEFAULT_PUBLISHABLE_CLIENT_KEY } from "../lib/auth.js";
-import { getInternalUser } from "../lib/app.js";
-import { writeConfigValue } from "../lib/config.js";
-import { CliError, AuthError } from "../lib/errors.js";
-import { isNonInteractiveEnv } from "../lib/interactive.js";
-import { createInitPrompt } from "../lib/init-prompt.js";
-import { runClaudeAgent } from "../lib/claude-agent.js";
 import { detectImportPackageFromDir, renderConfigFileContent } from "@stackframe/stack-shared/dist/config-rendering";
+import { Command } from "commander";
+import * as fs from "fs";
+import * as path from "path";
+import { getInternalUser } from "../lib/app.js";
+import { DEFAULT_PUBLISHABLE_CLIENT_KEY, resolveLoginConfig, resolveSessionAuth } from "../lib/auth.js";
+import { runClaudeAgent } from "../lib/claude-agent.js";
+import { writeConfigValue } from "../lib/config.js";
+import { AuthError, CliError } from "../lib/errors.js";
+import { createInitPrompt } from "../lib/init-prompt.js";
+import { isNonInteractiveEnv } from "../lib/interactive.js";
 
 type InitOptions = {
   mode?: "create" | "link-config" | "link-cloud",
@@ -110,7 +110,7 @@ async function handleLink(flags: Record<string, unknown>, opts: InitOptions, out
     //   message: "How would you like to link your project?",
     //   choices: [
     //     { name: "Link from config file", value: "config-file" as const },
-    //     { name: "Link from app.stack-auth.com", value: "cloud" as const },
+    //     { name: "Link from app.cognitiontree.com", value: "cloud" as const },
     //   ],
     // });
   }
@@ -163,7 +163,7 @@ async function handleLinkFromCloud(flags: Record<string, unknown>, opts: InitOpt
   const projects = await user.listOwnedProjects();
 
   if (projects.length === 0) {
-    throw new CliError("You don't own any projects. Create one at app.stack-auth.com first.");
+    throw new CliError("You don't own any projects. Create one at app.cognitiontree.com first.");
   }
 
   let projectId: string;

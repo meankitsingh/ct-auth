@@ -198,10 +198,10 @@ import.meta.vitest?.test("matchHostnamePattern", ({ expect }) => {
 
 export function getHardcodedFallbackUrls(primaryBaseUrl: string): string[] {
   if (primaryBaseUrl === "https://authApi.cognitiontree.com") {
-    return ["https://api1.stack-auth.com", "https://api2.stack-auth.com"];
+    return ["https://api1.cognitiontree.com", "https://api2.cognitiontree.com"];
   }
-  if (primaryBaseUrl === "https://api.dev.stack-auth.com") {
-    return ["https://api1.dev.stack-auth.com", "https://api2.dev.stack-auth.com"];
+  if (primaryBaseUrl === "https://api.dev.cognitiontree.com") {
+    return ["https://api1.dev.cognitiontree.com", "https://api2.dev.cognitiontree.com"];
   }
   const localhostMatch = primaryBaseUrl.match(/^http:\/\/localhost:(\d+)02$/);
   if (localhostMatch) {

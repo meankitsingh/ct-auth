@@ -243,7 +243,7 @@ export function FeatureRequestBoard({}: FeatureRequestBoardProps) {
   // Handle clicking on a feature request card to view it on Featurebase
   const handleFeatureRequestClick = (requestId: string) => {
     // Construct the Featurebase post URL using the post ID
-    const featureRequestUrl = `https://feedback.stack-auth.com/p/${requestId}`;
+    const featureRequestUrl = `https://feedback.cognitiontree.com/p/${requestId}`;
     const redirectTo = `/integrations/featurebase/sso?return_to=${encodeURIComponent(featureRequestUrl)}`;
 
     // Open in new tab to maintain the current Stack Companion session

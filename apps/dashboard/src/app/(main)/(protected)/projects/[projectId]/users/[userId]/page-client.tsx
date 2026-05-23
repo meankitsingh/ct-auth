@@ -1,52 +1,53 @@
 "use client";
 
+import { CountryCodeInput } from "@/components/country-code-select";
 import { EditableInput } from "@/components/editable-input";
 import { FormDialog, SmartFormDialog } from "@/components/form-dialog";
 import { InputField, SelectField } from "@/components/form-fields";
 import { MetadataSection } from "@/components/metadata-editor";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-  ActionCell,
-  Alert,
-  AlertDescription,
-  AlertTitle,
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  cn,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  Input,
-  Separator,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Textarea,
-  Typography,
-  useToast
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+    ActionCell,
+    Alert,
+    AlertDescription,
+    AlertTitle,
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+    Button,
+    cn,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+    Input,
+    Separator,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+    Textarea,
+    Typography,
+    useToast
 } from "@/components/ui";
 import { DeleteUserDialog, ImpersonateUserDialog } from "@/components/user-dialogs";
+import { parseRiskScore } from "@/lib/risk-score-utils";
 import { AtIcon, CalendarIcon, CheckIcon, DotsThreeIcon, EnvelopeIcon, GlobeIcon, HashIcon, ProhibitIcon, ShieldIcon, SquareIcon, XIcon } from "@phosphor-icons/react";
 import { ServerContactChannel, ServerOAuthProvider, ServerUser } from "@stackframe/stack";
 import { KnownErrors } from "@stackframe/stack-shared";
 import { normalizeCountryCode } from "@stackframe/stack-shared/dist/schema-fields";
-import { CountryCodeInput } from "@/components/country-code-select";
 import { fromNow } from "@stackframe/stack-shared/dist/utils/dates";
 import { captureError, StackAssertionError } from '@stackframe/stack-shared/dist/utils/errors';
 import { runAsynchronouslyWithAlert } from "@stackframe/stack-shared/dist/utils/promises";
@@ -56,9 +57,8 @@ import * as yup from "yup";
 import { AppEnabledGuard } from "../../app-enabled-guard";
 import { PageLayout } from "../../page-layout";
 import { useAdminApp } from "../../use-admin-app";
-import { parseRiskScore } from "@/lib/risk-score-utils";
 
-const userMetadataDocsUrl = "https://docs.stack-auth.com/docs/concepts/custom-user-data";
+const userMetadataDocsUrl = "https://docs.cognitiontree.com/docs/concepts/custom-user-data";
 
 type UserInfoProps = {
   icon: React.ReactNode,

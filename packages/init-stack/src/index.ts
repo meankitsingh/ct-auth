@@ -98,7 +98,7 @@ program
   .option("--on-question <mode>", "How to handle interactive questions: ask | guess | error | default", "default")
   .option("--no-warn-uncommitted-changes", "Don't warn about uncommitted changes in the Git repository")
   .addHelpText('after', `
-For more information, please visit https://docs.stack-auth.com/getting-started/setup`);
+For more information, please visit https://docs.cognitiontree.com/getting-started/setup`);
 
 program.parse();
 
@@ -321,7 +321,7 @@ async function main(): Promise<void> {
     }
     nextSteps.push(
       `Copy the environment variables from the new API key into your own environment and reference them in ${appFiles.join(" and ")}`,
-      `Follow the instructions on how to use Stack Auth's vanilla SDK at http://docs.stack-auth.com/others/js-client`,
+      `Follow the instructions on how to use Stack Auth's vanilla SDK at http://docs.cognitiontree.com/others/js-client`,
     );
   }
   logVerbose("Primary integration steps completed", { type, nextStepsCount: nextSteps.length });
@@ -385,7 +385,7 @@ async function main(): Promise<void> {
   }
   console.log();
   console.log("MCP servers installed:");
-  console.log(`  ${colorize.green`https://mcp.stack-auth.com`}`);
+  console.log(`  ${colorize.green`https://mcp.cognitiontree.com`}`);
   console.log();
   console.log("Files written:");
   for (const file of filesModified) {
@@ -434,7 +434,7 @@ ${colorize.bold`Next steps:`}
 3. Import the Stack components in your app
 4. Add authentication to your app
 
-For more information, please visit https://docs.stack-auth.com/getting-started/setup
+For more information, please visit https://docs.cognitiontree.com/getting-started/setup
   `.trim());
   if (!noBrowser) {
     await open(`https://accounts.cognitiontree.com/wizard-congrats?stack-init-id=${encodeURIComponent(distinctId)}`);
@@ -465,7 +465,7 @@ main().catch(async (err) => {
   console.log(colorize.red`===============================================`);
   console.error();
   console.error(
-    "If you need assistance, please try installing Stack manually as described in https://docs.stack-auth.com/getting-started/setup or join our Discord where we're happy to help: https://discord.stack-auth.com"
+    "If you need assistance, please try installing Stack manually as described in https://docs.cognitiontree.com/getting-started/setup or join our Discord where we're happy to help: https://discord.cognitiontree.com"
   );
   if (!(err instanceof UserError)) {
     console.error("");

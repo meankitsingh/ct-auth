@@ -51,7 +51,7 @@ export default async function FeaturebaseSSO({
     .sign(secret);
 
   // Redirect to Featurebase with JWT and return_to
-  const featurebaseUrl = new URL("https://feedback.stack-auth.com/api/v1/auth/access/jwt");
+  const featurebaseUrl = new URL("https://feedback.cognitiontree.com/api/v1/auth/access/jwt");
   featurebaseUrl.searchParams.set("jwt", jwt);
   featurebaseUrl.searchParams.set("return_to", returnTo);
 

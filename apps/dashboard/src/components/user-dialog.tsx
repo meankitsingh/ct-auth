@@ -1,16 +1,16 @@
 import { useAdminApp } from "@/app/(main)/(protected)/projects/[projectId]/use-admin-app";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Button, Typography, useToast } from "@/components/ui";
+import { validateRiskScore } from "@/lib/risk-score-utils";
 import { ServerUser } from "@stackframe/stack";
 import { KnownErrors } from "@stackframe/stack-shared";
 import { countryCodeSchema, emailSchema, jsonStringOrEmptySchema, passwordSchema } from "@stackframe/stack-shared/dist/schema-fields";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Button, Typography, useToast } from "@/components/ui";
 import * as yup from "yup";
-import { FormDialog } from "./form-dialog";
 import { CountryCodeField } from "./country-code-select";
+import { FormDialog } from "./form-dialog";
 import { DateField, InputField, SwitchField, TextAreaField } from "./form-fields";
 import { StyledLink } from "./link";
-import { validateRiskScore } from "@/lib/risk-score-utils";
 
-const metadataDocsUrl = "https://docs.stack-auth.com/docs/concepts/custom-user-data";
+const metadataDocsUrl = "https://docs.cognitiontree.com/docs/concepts/custom-user-data";
 
 export function UserDialog(props: {
   open?: boolean,

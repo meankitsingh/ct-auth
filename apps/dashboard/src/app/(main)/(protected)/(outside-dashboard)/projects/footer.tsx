@@ -11,7 +11,7 @@ export default function Footer () {
         <div className="flex flex-col gap-4 md:flex-1">
           <ul className="flex gap-4 flex-grow">
             {[
-              { href: "https://discord.stack-auth.com/", icon: FaDiscord },
+              { href: "https://discord.cognitiontree.com/", icon: FaDiscord },
               { href: "https://www.linkedin.com/company/stackframe-inc", icon: FaLinkedin },
               { href: "https://github.com/meankitsingh/ct-auth.git", icon: FaGithub },
             ].map(({ href, icon: Icon }) => (
@@ -26,7 +26,7 @@ export default function Footer () {
 
         <div className="flex gap-4 md:flex-1 md:justify-end flex-wrap">
           {[
-            { href: "https://stack-auth.com", label: "Home" },
+            { href: "https://cognitiontree.com", label: "Home" },
             { href: "https://www.iubenda.com/privacy-policy/19290387", label: "Privacy policy" },
             { href: "https://www.iubenda.com/privacy-policy/19290387/cookie-policy", label: "Cookie policy" },
             { href: "https://www.iubenda.com/terms-and-conditions/19290387", label: "Terms & conditions" },

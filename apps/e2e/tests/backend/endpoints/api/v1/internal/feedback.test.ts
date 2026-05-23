@@ -44,7 +44,7 @@ describe("POST /api/v1/internal/feedback", () => {
   it("should send support feedback to the configured internal inbox", async ({ expect }) => {
     const senderEmail = backendContext.value.mailbox.emailAddress;
     const signInResult = await Auth.Otp.signIn();
-    const recipientMailbox = createMailbox("team@stack-auth.com");
+    const recipientMailbox = createMailbox("team@cognitiontree.com");
     const subject = `[Support] ${senderEmail}`;
 
     const response = await niceBackendFetch("/api/v1/internal/feedback", {
@@ -68,7 +68,7 @@ describe("POST /api/v1/internal/feedback", () => {
     const emails = await waitForOutboxEmailWithStatus(subject, "sent");
     expect(emails[0]?.to).toMatchObject({
       type: "custom-emails",
-      emails: ["team@stack-auth.com"],
+      emails: ["team@cognitiontree.com"],
     });
 
     const messages = await recipientMailbox.waitForMessagesWithSubject(subject);

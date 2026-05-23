@@ -1,9 +1,9 @@
 "use client";
 
 import Loading from "@/app/loading";
-import { CursorBlastEffect } from "@stackframe/dashboard-ui-components";
 import { ConfigUpdateDialogProvider } from "@/lib/config-update";
 import { getPublicEnvVar } from '@/lib/env';
+import { CursorBlastEffect } from "@stackframe/dashboard-ui-components";
 import { useStackApp, useUser } from "@stackframe/stack";
 import { runAsynchronouslyWithAlert } from "@stackframe/stack-shared/dist/utils/promises";
 import { generateUuid } from "@stackframe/stack-shared/dist/utils/uuids";
@@ -20,12 +20,12 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
       if (user) return;
       if (isLocalEmulator) {
         await app.signInWithCredential({
-          email: "local-emulator@stack-auth.com",
+          email: "local-emulator@cognitiontree.com",
           password: "LocalEmulatorPassword",
         });
       } else if (isPreview) {
         const id = generateUuid();
-        const email = `preview-${id}@preview.stack-auth.com`;
+        const email = `preview-${id}@preview.cognitiontree.com`;
         const password = `PreviewPass-${id}`;
         const signInResult = await app.signInWithCredential({ email, password, noRedirect: true });
         if (signInResult.status === "error") {

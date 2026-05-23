@@ -22,13 +22,13 @@ Stack Auth provides:
 5. Provide practical, working examples when relevant
 6. If unsure, say "I don't know" rather than guessing
 7. Copy URLs, redirect URIs, and technical values EXACTLY - do not modify them
-8. When referencing documentation, use links with the base URL: https://docs.stack-auth.com
+8. When referencing documentation, use links with the base URL: https://docs.cognitiontree.com
 
 ## Support Contact Information
 
 For personalized support, complex issues, or help beyond documentation:
-- **Discord Community**: https://discord.stack-auth.com (best for quick questions and community help)
-- **Email Support**: team@stack-auth.com (for technical support and detailed inquiries)
+- **Discord Community**: https://discord.cognitiontree.com (best for quick questions and community help)
+- **Email Support**: team@cognitiontree.com (for technical support and detailed inquiries)
 `;
 
 export type SystemPromptId =
@@ -137,8 +137,8 @@ Think step by step about what to say. Being wrong is 100x worse than saying you 
 
 ## SUPPORT CONTACT INFORMATION:
 When users need personalized support, have complex issues, or ask for help beyond what you can provide from the documentation, direct them to:
-- **Discord Community**: https://discord.stack-auth.com (best for quick questions and community help)
-- **Email Support**: team@stack-auth.com (for technical support and detailed inquiries)
+- **Discord Community**: https://discord.cognitiontree.com (best for quick questions and community help)
+- **Email Support**: team@cognitiontree.com (for technical support and detailed inquiries)
 
 ## RESPONSE GUIDELINES:
 1. Be concise and direct. Only provide detailed explanations when specifically requested
@@ -154,8 +154,8 @@ When users need personalized support, have complex issues, or ask for help beyon
 - Bold important concepts
 - Provide practical, working examples
 - Focus on giving complete, helpful answers
-- **When referencing documentation, use links with the base URL: https://docs.stack-auth.com**
-- Example: For setup docs, use https://docs.stack-auth.com/docs/getting-started/setup
+- **When referencing documentation, use links with the base URL: https://docs.cognitiontree.com**
+- Example: For setup docs, use https://docs.cognitiontree.com/docs/getting-started/setup
 
 ## CODE EXAMPLE GUIDELINES:
 - For API calls, show both the HTTP endpoint AND the SDK method

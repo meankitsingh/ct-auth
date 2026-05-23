@@ -85,7 +85,7 @@ A: The cross-domain authorize route must carry the current `refreshTokenId` thro
 Q: Is there a manual demo page for cross-domain auth handoff verification?
 A: Yes — `examples/demo/src/app/cross-domain-handoff/page.tsx` provides one-click triggers for client sign-in/sign-up redirects, server protected-page redirects, and OAuth provider sign-in, plus runtime URL visibility for manual verification.
 
-Q: Why did the demo still use `*.built-with-stack-auth.com` in local dev?
+Q: Why did the demo still use `*.built-with-cognitiontree.com` in local dev?
 A: The demo app needs `NEXT_PUBLIC_STACK_HOSTED_HANDLER_DOMAIN_SUFFIX` in `examples/demo/.env.development`; set it to `.localhost:${NEXT_PUBLIC_STACK_PORT_PREFIX:-81}09` so hosted handler URLs resolve to the local hosted-components instance.
 
 Q: How should SDK code read environment variables to work across bundlers?

@@ -1,6 +1,6 @@
 import { generateUuid } from "@stackframe/stack-shared/dist/utils/uuids";
 import { it } from "../../../../../helpers";
-import { Auth, niceBackendFetch, Payments, Project, Team, User } from "../../../../backend-helpers";
+import { Auth, niceBackendFetch, Payments, Project, Team } from "../../../../backend-helpers";
 
 async function configureProduct(config: any) {
   await Project.updateConfig({
@@ -1037,7 +1037,7 @@ it("listing owned products should require authentication", async ({ expect }) =>
           "error": deindent\`
             You must specify an access level for this Stack project. Make sure project API keys are provided (eg. x-stack-publishable-client-key) and you set the x-stack-access-type header to 'client', 'server', or 'admin'.
             
-            For more information, see the docs on REST API authentication: https://docs.stack-auth.com/rest-api/overview#authentication
+            For more information, see the docs on REST API authentication: https://docs.cognitiontree.com/rest-api/overview#authentication
           \`,
         },
         "headers": Headers {

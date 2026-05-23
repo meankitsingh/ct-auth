@@ -19,7 +19,7 @@ it("should not have access to the project without project keys", async ({ expect
         "error": deindent\`
           The x-stack-access-type header was 'client', but the x-stack-project-id header was not provided.
           
-          For more information, see the docs on REST API authentication: https://docs.stack-auth.com/rest-api/overview#authentication
+          For more information, see the docs on REST API authentication: https://docs.cognitiontree.com/rest-api/overview#authentication
         \`,
       },
       "headers": Headers {
@@ -1422,7 +1422,7 @@ it("does not allow accessing a project without a project ID header", async ({ ex
         "error": deindent\`
           The x-stack-access-type header was 'admin', but the x-stack-project-id header was not provided.
           
-          For more information, see the docs on REST API authentication: https://docs.stack-auth.com/rest-api/overview#authentication
+          For more information, see the docs on REST API authentication: https://docs.cognitiontree.com/rest-api/overview#authentication
         \`,
       },
       "headers": Headers {

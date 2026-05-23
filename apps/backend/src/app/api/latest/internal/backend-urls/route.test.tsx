@@ -13,19 +13,19 @@ describe('parseAndValidateConfig', () => {
 
   it('should parse multiple entries', () => {
     const result = parseAndValidateConfig({
-      "0.7": ["https://authApi.cognitiontree.com", "https://api2.stack-auth.com"],
-      "0.3": ["https://api2.stack-auth.com", "https://authApi.cognitiontree.com"],
+      "0.7": ["https://authApi.cognitiontree.com", "https://api2.cognitiontree.com"],
+      "0.3": ["https://api2.cognitiontree.com", "https://authApi.cognitiontree.com"],
     });
     expect(result).toEqual([
-      { probability: 0.7, urls: ["https://authApi.cognitiontree.com", "https://api2.stack-auth.com"] },
-      { probability: 0.3, urls: ["https://api2.stack-auth.com", "https://authApi.cognitiontree.com"] },
+      { probability: 0.7, urls: ["https://authApi.cognitiontree.com", "https://api2.cognitiontree.com"] },
+      { probability: 0.3, urls: ["https://api2.cognitiontree.com", "https://authApi.cognitiontree.com"] },
     ]);
   });
 
   it('should allow probabilities summing to less than 1', () => {
     const result = parseAndValidateConfig({
       "0.5": ["https://authApi.cognitiontree.com"],
-      "0.3": ["https://api2.stack-auth.com"],
+      "0.3": ["https://api2.cognitiontree.com"],
     });
     expect(result).toHaveLength(2);
   });
@@ -50,7 +50,7 @@ describe('parseAndValidateConfig', () => {
   it('should reject probabilities summing to more than 1', () => {
     expect(() => parseAndValidateConfig({
       "0.6": ["https://authApi.cognitiontree.com"],
-      "0.5": ["https://api2.stack-auth.com"],
+      "0.5": ["https://api2.cognitiontree.com"],
     })).toThrow("exceeds 1");
   });
 

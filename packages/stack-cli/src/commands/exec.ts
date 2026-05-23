@@ -1,6 +1,6 @@
 import { Command } from "commander";
-import { resolveAuth } from "../lib/auth.js";
 import { getAdminProject } from "../lib/app.js";
+import { resolveAuth } from "../lib/auth.js";
 import { CliError } from "../lib/errors.js";
 
 function getErrorMessage(err: unknown): string {
@@ -21,7 +21,7 @@ export function registerExecCommand(program: Command) {
   program
     .command("exec [javascript]")
     .description("Execute JavaScript with a pre-configured StackServerApp as `stackServerApp`")
-    .addHelpText("after", "\nFor available API methods, see: https://docs.stack-auth.com/docs/sdk")
+    .addHelpText("after", "\nFor available API methods, see: https://docs.cognitiontree.com/docs/sdk")
     .action(async (javascript: string | undefined) => {
       if (javascript === undefined) {
         throw new CliError("Missing JavaScript argument. Use `stack exec \"<javascript>\"` or `stack exec --help`.");

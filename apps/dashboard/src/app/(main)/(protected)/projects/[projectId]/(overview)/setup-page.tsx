@@ -1,11 +1,11 @@
 'use client';
 
 import { CodeBlock } from '@/components/code-block';
+import { DesignButton } from "@/components/design-components";
 import { APIEnvKeys, NextJsEnvKeys } from '@/components/env-keys';
 import { InlineCode } from '@/components/inline-code';
 import { StyledLink } from '@/components/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger, Typography, cn } from "@/components/ui";
-import { DesignButton } from "@/components/design-components";
 import { useThemeWatcher } from '@/lib/theme';
 import { BookIcon, XIcon } from "@phosphor-icons/react";
 import { use } from "@stackframe/stack-shared/dist/utils/react";
@@ -451,7 +451,7 @@ export default function SetupPage(props: { toMetrics: () => void }) {
               variant='outline'
               size='sm'
               onClick={() => {
-                window.open('https://docs.stack-auth.com/', '_blank');
+                window.open('https://docs.cognitiontree.com/', '_blank');
               }}
             >
               <BookIcon className="w-4 h-4 mr-2" />

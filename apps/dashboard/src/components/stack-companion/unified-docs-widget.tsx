@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeftIcon, BookOpenIcon, ArrowSquareOutIcon, CircleNotchIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon, ArrowSquareOutIcon, BookOpenIcon, CircleNotchIcon } from '@phosphor-icons/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getPublicEnvVar } from '../../lib/env';
@@ -17,7 +17,7 @@ type DocContent = {
 
 type DocType = 'dashboard' | 'docs' | 'api';
 
-const PROD_DOCS_ORIGIN = 'https://docs.stack-auth.com';
+const PROD_DOCS_ORIGIN = 'https://docs.cognitiontree.com';
 const LOCAL_DOCS_ORIGIN = 'http://localhost:8104';
 
 const isLocalHostname = (hostname: string): boolean => {
@@ -32,8 +32,8 @@ const isAllowedDocsUrl = (url: URL): boolean => {
 
   if (url.protocol !== 'https:') return false;
   const hostname = url.hostname.toLowerCase();
-  if (hostname === 'docs.stack-auth.com') return true;
-  return hostname.endsWith('.stack-auth.com');
+  if (hostname === 'docs.cognitiontree.com') return true;
+  return hostname.endsWith('.cognitiontree.com');
 };
 
 const isLocalEnvironment = (): boolean => {

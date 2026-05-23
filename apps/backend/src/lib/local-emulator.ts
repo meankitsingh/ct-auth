@@ -9,7 +9,7 @@ import path from "path";
 
 export const LOCAL_EMULATOR_ADMIN_USER_ID = "63abbc96-5329-454a-ba56-e0460173c6c1";
 export const LOCAL_EMULATOR_OWNER_TEAM_ID = "5a0c858b-d9e9-49d4-9943-8ce385d86428";
-export const LOCAL_EMULATOR_ADMIN_EMAIL = "local-emulator@stack-auth.com";
+export const LOCAL_EMULATOR_ADMIN_EMAIL = "local-emulator@cognitiontree.com";
 export const LOCAL_EMULATOR_ADMIN_PASSWORD = "LocalEmulatorPassword";
 
 export const LOCAL_EMULATOR_ENV_CONFIG_BLOCKED_MESSAGE =

@@ -121,7 +121,7 @@ export default function PageClient(props: { teamId: string }) {
         <TeamMemberTable users={users || []} team={team} />
         <MetadataSection
           entityName="team"
-          docsUrl="https://docs.stack-auth.com/docs/concepts/teams"
+          docsUrl="https://docs.cognitiontree.com/docs/concepts/teams"
           clientMetadata={team.clientMetadata}
           clientReadOnlyMetadata={team.clientReadOnlyMetadata}
           serverMetadata={team.serverMetadata}

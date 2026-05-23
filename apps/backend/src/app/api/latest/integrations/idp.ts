@@ -1,5 +1,5 @@
-import { globalPrismaClient, retryTransaction } from '@/prisma-client';
 import { Prisma } from '@/generated/prisma/client';
+import { globalPrismaClient, retryTransaction } from '@/prisma-client';
 import { decodeBase64OrBase64Url, toHexString } from '@stackframe/stack-shared/dist/utils/bytes';
 import { getEnvVariable } from '@stackframe/stack-shared/dist/utils/env';
 import { StackAssertionError, captureError, throwErr } from '@stackframe/stack-shared/dist/utils/errors';
@@ -164,7 +164,7 @@ function createPrismaAdapter(idpId: string) {
 
 export async function createOidcProvider(options: { id: string, baseUrl: string, clientInteractionUrl: string }) {
   const privateJwks = await getPrivateJwks({
-    audience: `https://idp-jwk-audience.stack-auth.com/${encodeURIComponent(options.id)}`,
+    audience: `https://idp-jwk-audience.cognitiontree.com/${encodeURIComponent(options.id)}`,
   });
   const privateJwkSet = {
     keys: privateJwks,

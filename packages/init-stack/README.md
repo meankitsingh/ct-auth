@@ -41,4 +41,4 @@ Initialize Stack Auth in a JavaScript project with npm:
 npx init-stack --js --npm
 ```
 
-For more information, please visit [Stack Auth Documentation](https://docs.stack-auth.com/getting-started/setup).
+For more information, please visit [Stack Auth Documentation](https://docs.cognitiontree.com/getting-started/setup).

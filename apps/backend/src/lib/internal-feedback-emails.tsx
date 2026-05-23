@@ -116,9 +116,9 @@ import.meta.vitest?.test("getInternalFeedbackRecipients()", ({ expect }) => {
     expect(() => getInternalFeedbackRecipients()).toThrow("Missing environment variable");
 
     // eslint-disable-next-line no-restricted-syntax
-    process.env.STACK_INTERNAL_FEEDBACK_RECIPIENTS = "TEAM@stack-auth.com, team@stack-auth.com , another@example.com";
+    process.env.STACK_INTERNAL_FEEDBACK_RECIPIENTS = "TEAM@cognitiontree.com, team@cognitiontree.com , another@example.com";
     expect(getInternalFeedbackRecipients()).toEqual([
-      "team@stack-auth.com",
+      "team@cognitiontree.com",
       "another@example.com",
     ]);
 

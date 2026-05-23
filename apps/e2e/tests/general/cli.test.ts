@@ -1,11 +1,11 @@
+import { StackAdminApp } from "@stackframe/js";
+import { Result } from "@stackframe/stack-shared/dist/utils/results";
 import { execFile } from "child_process";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { StackAdminApp } from "@stackframe/js";
-import { Result } from "@stackframe/stack-shared/dist/utils/results";
-import { describe, beforeAll, afterAll } from "vitest";
-import { it, niceFetch, STACK_BACKEND_BASE_URL, STACK_INTERNAL_PROJECT_CLIENT_KEY, STACK_INTERNAL_PROJECT_SERVER_KEY, STACK_INTERNAL_PROJECT_ADMIN_KEY } from "../helpers";
+import { afterAll, beforeAll, describe } from "vitest";
+import { it, niceFetch, STACK_BACKEND_BASE_URL, STACK_INTERNAL_PROJECT_ADMIN_KEY, STACK_INTERNAL_PROJECT_CLIENT_KEY, STACK_INTERNAL_PROJECT_SERVER_KEY } from "../helpers";
 
 const CLI_BIN = path.resolve("packages/stack-cli/dist/index.js");
 const CLI_SRC_BIN = path.resolve("packages/stack-cli/src/index.ts");
@@ -202,7 +202,7 @@ describe("Stack CLI", () => {
   it("exec help mentions docs URL", async ({ expect }) => {
     const { stdout, exitCode } = await runCli(["exec", "--help"]);
     expect(exitCode).toBe(0);
-    expect(stdout).toContain("https://docs.stack-auth.com/docs/sdk");
+    expect(stdout).toContain("https://docs.cognitiontree.com/docs/sdk");
   });
 
   it("errors when no javascript is provided", async ({ expect }) => {

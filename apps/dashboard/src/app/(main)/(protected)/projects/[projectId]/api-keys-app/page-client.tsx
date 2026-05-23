@@ -1,11 +1,11 @@
 "use client";
-import { StyledLink } from "@/components/link";
 import {
-  DesignAlert,
-  DesignCard,
-  DesignEditableGrid,
-  type DesignEditableGridItem,
+    DesignAlert,
+    DesignCard,
+    DesignEditableGrid,
+    type DesignEditableGridItem,
 } from "@/components/design-components";
+import { StyledLink } from "@/components/link";
 import { Switch } from "@/components/ui";
 import { useUpdateConfig } from "@/lib/config-update";
 import { GearSix, KeyIcon, UsersIcon } from "@phosphor-icons/react";
@@ -109,7 +109,7 @@ export default function PageClient() {
             <br /><br />
             If you are looking to create or manage keys for your Stack Auth project, head over to the <StyledLink href={`/projects/${project.id}/project-keys`}>Project Keys</StyledLink> settings.
             <br /><br />
-            For more information, see the <StyledLink href="https://docs.stack-auth.com/docs/apps/api-keys">API Keys docs</StyledLink>.
+            For more information, see the <StyledLink href="https://docs.cognitiontree.com/docs/apps/api-keys">API Keys docs</StyledLink>.
           </>}
         />
 

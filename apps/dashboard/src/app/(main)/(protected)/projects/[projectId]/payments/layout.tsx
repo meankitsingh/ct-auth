@@ -6,8 +6,8 @@ import { Link } from "@/components/link";
 import { StripeConnectProvider } from "@/components/payments/stripe-connect-provider";
 import { ActionDialog, Button, Card, CardContent, Typography } from "@/components/ui";
 import { useUpdateConfig } from "@/lib/config-update";
-import { cn } from "@/lib/utils";
 import { getPublicEnvVar } from "@/lib/env";
+import { cn } from "@/lib/utils";
 import { ArrowRightIcon, ArrowsClockwiseIcon, ChartBarIcon, FlaskIcon, ShieldIcon, WalletIcon, WarningIcon, WebhooksLogoIcon } from "@phosphor-icons/react";
 import { wait } from "@stackframe/stack-shared/dist/utils/promises";
 import { ConnectNotificationBanner } from "@stripe/react-connect-js";
@@ -389,7 +389,7 @@ function SetupPaymentsButton({ setupPayments }: { setupPayments: () => Promise<v
       >
         <div className="mb-4">
           Stack Auth Payments is currently only available in the US. If you&apos;d like to be notified when we expand to other countries, please reach out to us on our{" "}
-          <Link href="https://feedback.stack-auth.com" target="_blank" className="underline">
+          <Link href="https://feedback.cognitiontree.com" target="_blank" className="underline">
             Feedback platform
           </Link>
           .

@@ -3,7 +3,7 @@ import { deindent } from "@stackframe/stack-shared/dist/utils/strings";
 import { envVars } from "../env";
 import { DefaultHandlerUrlTarget, HandlerPageUrls, HandlerUrlOptions, HandlerUrlTarget, HandlerUrls, ResolvedHandlerUrls } from "./common";
 
-const defaultHostedHandlerDomainSuffix = ".built-with-stack-auth.com";
+const defaultHostedHandlerDomainSuffix = ".built-with-cognitiontree.com";
 const hostedHandlerProjectIdPlaceholder = "{projectId}";
 const hostedHandlerPathPlaceholder = "{hostedPath}";
 const localUrlPlaceholderOrigin = "http://example.com";
@@ -171,7 +171,7 @@ export const getHostedHandlerDomainSuffix = (): string => {
   if (!domainSuffix.startsWith(".")) {
     throw new StackAssertionError("The hosted handler domain suffix must start with a dot.", {
       domainSuffix,
-      hint: "Set NEXT_PUBLIC_STACK_HOSTED_HANDLER_DOMAIN_SUFFIX to a value like '.built-with-stack-auth.com'.",
+      hint: "Set NEXT_PUBLIC_STACK_HOSTED_HANDLER_DOMAIN_SUFFIX to a value like '.built-with-cognitiontree.com'.",
     });
   }
   return domainSuffix;
@@ -183,7 +183,7 @@ const getHostedHandlerUrlTemplate = (): string => {
     if (!configuredTemplate.includes(hostedHandlerProjectIdPlaceholder) || !configuredTemplate.includes(hostedHandlerPathPlaceholder)) {
       throw new StackAssertionError("The hosted handler URL template must contain {projectId} and {hostedPath}.", {
         hostedHandlerUrlTemplate: configuredTemplate,
-        hint: "Set NEXT_PUBLIC_STACK_HOSTED_HANDLER_URL_TEMPLATE to a value like 'https://{projectId}.built-with-stack-auth.com/{hostedPath}'.",
+        hint: "Set NEXT_PUBLIC_STACK_HOSTED_HANDLER_URL_TEMPLATE to a value like 'https://{projectId}.built-with-cognitiontree.com/{hostedPath}'.",
       });
     }
     return configuredTemplate;

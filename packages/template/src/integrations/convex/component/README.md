@@ -56,7 +56,7 @@ Now, you'll be able to access Stack Auth's functionality from your frontend & ba
 ```ts
 // MyPage.tsx
 export function MyPage() {
-  // see https://docs.stack-auth.com for more information on how to use Stack Auth
+  // see https://docs.cognitiontree.com for more information on how to use Stack Auth
   const user = useUser();
   return <div>Your email is {user.email}</div>;
 }
@@ -71,4 +71,4 @@ export const myQuery = query({
 });
 ```
 
-For more information on how to use Stack Auth, see the [Stack Auth docs](https://docs.stack-auth.com).
+For more information on how to use Stack Auth, see the [Stack Auth docs](https://docs.cognitiontree.com).

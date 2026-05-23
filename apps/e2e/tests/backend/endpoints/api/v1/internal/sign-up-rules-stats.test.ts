@@ -20,7 +20,7 @@ describe("without project access", () => {
           "error": deindent\`
             The x-stack-access-type header was 'client', but the x-stack-project-id header was not provided.
             
-            For more information, see the docs on REST API authentication: https://docs.stack-auth.com/rest-api/overview#authentication
+            For more information, see the docs on REST API authentication: https://docs.cognitiontree.com/rest-api/overview#authentication
           \`,
         },
         "headers": Headers {

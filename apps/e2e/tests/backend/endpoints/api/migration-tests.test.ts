@@ -20,7 +20,7 @@ describe("SmartRouteHandler", () => {
           "body": deindent\`
             404 — this page does not exist in Stack Auth's API.
             
-            Please see the API documentation at https://docs.stack-auth.com, or visit the Stack Auth dashboard at https://accounts.cognitiontree.com.
+            Please see the API documentation at https://docs.cognitiontree.com, or visit the Stack Auth dashboard at https://accounts.cognitiontree.com.
             
             URL: http://localhost:<$NEXT_PUBLIC_STACK_PORT_PREFIX>02/api/v1/migration-tests/smart-route-handler
           \`,

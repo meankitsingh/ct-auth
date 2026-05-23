@@ -131,7 +131,7 @@ const SmartLink = memo(function SmartLink({ href, children }: {
 }) {
   const displayText = String(children || href || "");
   const isFullUrl = href?.startsWith("http");
-  const isDocsLink = href?.includes("docs.stack-auth.com");
+  const isDocsLink = href?.includes("docs.cognitiontree.com");
 
   // Truncate long URLs for display
   const truncatedDisplay = displayText.length > 55 ? truncateUrl(displayText, 50) : displayText;
